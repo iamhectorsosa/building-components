@@ -2,26 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+	scroll-behavior: smooth;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.shiki {
+	@apply m-0 w-full overflow-x-scroll rounded-b-md pb-5 shadow-lg;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.shiki code {
+	@apply grid;
+}
+
+.shiki .line {
+	@apply relative inline-flex px-7 text-sm leading-6;
+}
+
+.shiki .line[data-line]:before {
+	@apply -ml-2 mr-5 inline-flex min-w-[2ch] justify-end text-slate-500 opacity-40 content-[attr(data-line)];
 }

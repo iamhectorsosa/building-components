@@ -1,113 +1,97 @@
-import Image from 'next/image'
+import { CONTENT_DIR, categories } from '@config';
+import { join } from 'path';
+import { readFileSync, readdirSync } from 'fs';
+import { getHighlighter, highlight } from '@lib/shiki';
+import { Preview } from '@components/Preview';
 
-export default function Home() {
+import dynamic from 'next/dynamic';
+
+export default async function Home() {
+  const data = await getComponentsByCategory();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <div className="w-full">
+      <section className="grid grid-cols-1 gap-y-8">
+        {data.map(({ id: categoryId, name, description, components }, index) => (
+          <article key={index} className="grid grid-cols-1 space-y-2">
+            <h2 className="font-bold text-3xl">{name}</h2>
+            <p className="line-clamp-2">{description}</p>
+            <div className="grid grid-cols-1 py-2 space-y-6 h-fit">
+              {components.map(
+                (props, index) => {
+                  const DynamicComponent = dynamic(() => import(`../content/components/${categoryId}/${props.id}.preview`))
+                  return (
+                    <Preview key={index}
+                      component={<DynamicComponent />}
+                      {...props}
+                    />
+                  )
+                })}
+            </div>
+          </article>
+        ))}
+      </section>
+    </div>
   )
+}
+
+const getComponentsByCategory = async () => {
+
+  const componentFilesByCategory = categories.map(({ id, name, description }) => {
+    const categoryPath = join(process.cwd(), CONTENT_DIR, id);
+    const files = readdirSync(categoryPath);
+    return {
+      id,
+      name,
+      description,
+      files,
+    }
+  })
+
+  const highlighter = await getHighlighter();
+
+  return await Promise.all(componentFilesByCategory.map(async ({
+    id,
+    name,
+    description,
+    files,
+  }) => {
+    const categoryPath = join(process.cwd(), CONTENT_DIR, id);
+    const componentsData = files
+      .reduce((result: { id: string; preview: string, source: string }[], file: string) => {
+        const id = file.replace(/(\.preview)?\.tsx$/, '');
+        const existingItem = result.find(item => item.source === id);
+
+        const fileData = readFileSync(join(categoryPath, file), "utf8");
+
+        if (file.includes('.preview.tsx')) {
+          existingItem
+            ? (existingItem.preview = fileData)
+            : result.push({ id, preview: fileData, source: id });
+        } else {
+          existingItem
+            ? (existingItem.source = fileData)
+            : result.push({ id, source: fileData, preview: '' });
+        }
+
+        return result;
+      }, [])
+      .filter(item => item.preview && item.source);
+
+    const components = await Promise.all(componentsData.map(async ({ id, ...item }) => {
+      const preview = await highlight(highlighter, item.preview);
+      const source = await highlight(highlighter, item.source);
+      return ({
+        id,
+        preview,
+        source
+      })
+    }))
+
+    return {
+      id,
+      name,
+      description,
+      components
+    };
+  }));
 }
