@@ -4,24 +4,20 @@ import { readFileSync, readdirSync } from 'fs';
 import { getHighlighter, highlight } from '@lib/shiki';
 import { Preview } from '@components/Preview';
 
-import dynamic from 'next/dynamic';
-
 export default async function Home() {
   const data = await getComponentsByCategory();
   return (
     <div className="w-full">
       <section className="grid grid-cols-1 gap-y-8">
-        {data.map(({ id: categoryId, name, description, components }, index) => (
+        {data.map(({ name, description, components }, index) => (
           <article key={index} className="grid grid-cols-1 space-y-2">
             <h2 className="font-bold text-3xl">{name}</h2>
             <p className="line-clamp-2">{description}</p>
             <div className="grid grid-cols-1 py-2 space-y-6 h-fit">
               {components.map(
                 (props, index) => {
-                  const DynamicComponent = dynamic(() => import(`../content/components/${categoryId}/${props.id}.preview`))
                   return (
                     <Preview key={index}
-                      component={<DynamicComponent />}
                       {...props}
                     />
                   )
@@ -77,11 +73,13 @@ const getComponentsByCategory = async () => {
       }, [])
       .filter(item => item.preview && item.source);
 
-    const components = await Promise.all(componentsData.map(async ({ id, ...item }) => {
+    const components = await Promise.all(componentsData.map(async (item) => {
+      const Component = (await import(`../content/components/${id}/${item.id}.preview`)).default;
       const preview = await highlight(highlighter, item.preview);
       const source = await highlight(highlighter, item.source);
       return ({
-        id,
+        id: item.id,
+        component: <Component />,
         preview,
         source
       })

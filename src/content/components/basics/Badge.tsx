@@ -4,13 +4,13 @@ import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2",
+  "inline-flex items-center justify-center rounded-md text-sm font-medium px-3 py-1",
   {
     variants: {
       variant: {
-        default: "bg-slate-900 text-slate-100 hover:bg-slate-900/90",
-        secondary: "bg-slate-100 text-slate-900 hover:bg-slate-200/90",
-        ghost: "bg-transparent text-slate-900 hover:bg-slate-200/90",
+        default: "bg-blue-600 text-slate-100",
+        warning: "bg-amber-500 text-slate-900",
+        danger: "bg-red-500 text-slate-100",
       },
     },
     defaultVariants: {
@@ -25,9 +25,9 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Badge = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+    const Comp = asChild ? Slot : "span";
     return (
       <Comp
         className={cn(buttonVariants({ variant, className }))}
@@ -37,6 +37,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
-Button.displayName = "Button";
+Badge.displayName = "Badge";
 
-export { Button };
+export { Badge };
