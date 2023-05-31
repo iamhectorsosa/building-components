@@ -38,7 +38,7 @@ export const Preview = ({ id, component, preview, source }: { id: string; compon
               },
             }}
             handleClasses={{
-              right: "hidden sm:flex items-center bg-slate-50",
+              right: "hidden sm:flex items-center bg-slate-50 -ml-3 rounded-r-md",
             }}
             handleComponent={{
               right: <div className="h-8 w-1.5 rounded-full bg-slate-400" />,
