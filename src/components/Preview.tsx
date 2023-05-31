@@ -4,10 +4,14 @@ import * as React from "react";
 import { CodeIcon, EyeIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/Tabs";
 import { CopyButton } from "./CopyButton";
+import { Resizable } from "re-resizable";
+import { Button } from "./ui/Button";
+import { cn } from "@utils/cn";
 
 export const Preview = ({ id, component, preview, source }: { id: string; component: React.ReactNode; preview: string; source: string }) => {
 
   const [code, setCode] = React.useState('');
+  const [expanded, setExpanded] = React.useState(false);
 
   return (
     <div className="space-y-3">
@@ -20,12 +24,33 @@ export const Preview = ({ id, component, preview, source }: { id: string; compon
           </TabsList>
         </div>
         <TabsContent value="preview">
-          <div className="min-h-[100px] w-full grid place-content-center">
-            {component}
-          </div>
-        </TabsContent>
-        <TabsContent value="code">
-          <div className="bg-slate-900 rounded-md">
+          <Resizable
+            bounds="parent"
+            minWidth="320px"
+            handleStyles={{
+              right: {
+                right: "initial",
+                left: "100%",
+                paddingLeft: "0.25rem",
+                paddingRight: "0.25rem",
+                width: "auto",
+                cursor: "ew-resize",
+              },
+            }}
+            handleClasses={{
+              right: "hidden sm:flex items-center bg-slate-50",
+            }}
+            handleComponent={{
+              right: <div className="h-8 w-1.5 rounded-full bg-slate-400" />,
+            }}
+          >
+            <div className="@container min-h-[250px] w-full grid place-content-center bg-slate-50 shadow-sm">
+              {component}
+            </div>
+          </Resizable>
+        </TabsContent >
+        <TabsContent className="relative" value="code">
+          <div className={cn("overflow-hidden bg-slate-900 rounded-md", !expanded && "max-h-[250px]")}>
             <Tabs defaultValue="preview">
               <div className="flex justify-between items-center px-5 pt-3">
                 <TabsList className="bg-slate-900 grid sm:inline-flex w-full">
@@ -52,6 +77,12 @@ export const Preview = ({ id, component, preview, source }: { id: string; compon
               </TabsContent>
             </Tabs>
           </div>
+          {
+            !expanded &&
+            <div className="absolute pointer-events-none rounded-md h-full w-full inset-0 bg-gradient-to-t from-slate-900 text-white flex justify-center items-end pb-8">
+              <Button onClick={() => setExpanded(!expanded)} variant="secondary" className="pointer-events-auto h-fit">Expand</Button>
+            </div>
+          }
         </TabsContent >
       </Tabs >
     </div >
