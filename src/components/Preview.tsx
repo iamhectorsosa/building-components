@@ -44,18 +44,18 @@ export const Preview = ({ id, component, preview, source }: { id: string; compon
               right: <div className="h-8 w-1.5 rounded-full bg-slate-400" />,
             }}
           >
-            <div className="@container min-h-[250px] w-full grid place-content-center bg-slate-50 shadow-sm">
+            <div className="@container min-h-[350px] w-full grid place-content-center bg-slate-50 shadow-sm">
               {component}
             </div>
           </Resizable>
         </TabsContent >
         <TabsContent className="relative" value="code">
-          <div className={cn("overflow-hidden bg-slate-900 rounded-md", !expanded && "max-h-[250px]")}>
+          <div className={cn("overflow-hidden bg-[#011627] rounded-md", !expanded && "max-h-[350px]")}>
             <Tabs defaultValue="preview">
               <div className="flex justify-between items-center px-5 pt-3">
-                <TabsList className="bg-slate-900 grid sm:inline-flex w-full">
-                  <TabsTrigger value="preview" className="bg-slate-900 text-xs hover:bg-slate-700/50 data-[state=active]:bg-slate-700 data-[state=active]:text-slate-200 py-1.5 px-2.5">{id}.preview.tsx</TabsTrigger>
-                  <TabsTrigger value="code" className="bg-slate-900 text-xs hover:bg-slate-700/50 data-[state=active]:bg-slate-700 data-[state=active]:text-slate-200 py-1.5 px-2.5">{id}.tsx</TabsTrigger>
+                <TabsList className="bg-[#011627] grid sm:inline-flex w-full">
+                  <TabsTrigger value="preview" className="text-xs hover:bg-slate-700/50 data-[state=active]:bg-slate-700 data-[state=active]:text-slate-200 py-1.5 px-2.5">{id}.preview.tsx</TabsTrigger>
+                  <TabsTrigger value="code" className="text-xs hover:bg-slate-700/50 data-[state=active]:bg-slate-700 data-[state=active]:text-slate-200 py-1.5 px-2.5">{id}.tsx</TabsTrigger>
                 </TabsList>
                 <CopyButton code={code} />
               </div>
@@ -78,10 +78,14 @@ export const Preview = ({ id, component, preview, source }: { id: string; compon
             </Tabs>
           </div>
           {
-            !expanded &&
-            <div className="absolute pointer-events-none rounded-md h-full w-full inset-0 bg-gradient-to-t from-slate-900 text-white flex justify-center items-end pb-8">
-              <Button onClick={() => setExpanded(!expanded)} variant="secondary" className="pointer-events-auto h-fit">Expand</Button>
-            </div>
+            !expanded ?
+              <div className="absolute pointer-events-none rounded-md h-full w-full inset-0 bg-gradient-to-t from-slate-900 flex justify-center items-end pb-8">
+                <Button onClick={() => setExpanded(!expanded)} variant="secondary" className="pointer-events-auto h-fit">Expand</Button>
+              </div>
+              :
+              <div className="absolute pointer-events-none rounded-md h-full w-full inset-0 flex justify-center items-end pb-2">
+                <button onClick={() => setExpanded(!expanded)} className="pointer-events-auto text-xs py-2 px-2 font-medium text-slate-100">Collapse</button>
+              </div>
           }
         </TabsContent >
       </Tabs >

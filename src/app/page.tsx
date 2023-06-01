@@ -3,6 +3,7 @@ import { join } from 'path';
 import { readFileSync, readdirSync } from 'fs';
 import { getHighlighter, highlight } from '@lib/shiki';
 import { Preview } from '@components/Preview';
+import { format } from "prettier";
 
 export default async function Home() {
   const data = await getComponentsByCategory();
@@ -57,7 +58,7 @@ const getComponentsByCategory = async () => {
         const id = file.replace(/(\.preview)?\.tsx$/, '');
         const existingItem = result.find(item => item.source === id);
 
-        const fileData = readFileSync(join(categoryPath, file), "utf8");
+        const fileData = format(readFileSync(join(categoryPath, file), "utf8"), { parser: "typescript" });
 
         if (file.includes('.preview.tsx')) {
           existingItem
