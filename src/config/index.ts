@@ -12,4 +12,9 @@ export const categories: Categories = [
 		name: "The Basics",
 		description: "Components that could be used everywhere",
 	},
+	{
+		id: "typography",
+		name: "Typography",
+		description: "Components for text-related content",
+	},
 ];

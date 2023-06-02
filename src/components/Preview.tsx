@@ -44,7 +44,7 @@ export const Preview = ({ id, component, preview, source }: { id: string; compon
               right: <div className="h-8 w-1.5 rounded-full bg-slate-400" />,
             }}
           >
-            <div className="@container min-h-[350px] w-full grid place-content-center bg-slate-50 shadow-sm">
+            <div className="@container min-h-[350px] w-full grid place-items-center bg-slate-50 p-4 md:p-12 shadow-sm">
               {component}
             </div>
           </Resizable>
