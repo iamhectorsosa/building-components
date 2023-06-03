@@ -22,6 +22,9 @@ export async function highlight(highlighter: Highlighter, code: string) {
 	return shiki.renderToHtml(tokens, {
 		bg,
 		elements: {
+			pre({ className, style, children }) {
+				return `<pre class="${className}" style="${style}">${children}</pre>`
+			},
 			line({ children, className, index }) {
 				return `<span data-line=${index + 1}
          class=${className}>${children}</span>`;
