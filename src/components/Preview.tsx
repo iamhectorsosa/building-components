@@ -23,7 +23,7 @@ export const Preview = ({ id, component, preview, source }: { id: string; compon
             <TabsTrigger value="code" className="rounded-full p-2"><CodeIcon className="w-4 h-4" /><span className="hidden md:inline-flex">Code</span></TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent className="relative rounded-md overflow-hidden" value="preview">
+        <TabsContent className="relative rounded-md" value="preview">
           <Resizable
             bounds="parent"
             minWidth="320px"
