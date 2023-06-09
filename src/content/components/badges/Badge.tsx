@@ -1,21 +1,18 @@
 // Exact copy
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { badgeVariants } from "@themes/Badge.css";
+import { badge, type BadgeVariants } from "@themes/Badge.css";
 import { cn } from "@utils/cn";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: keyof typeof badgeVariants;
-  asChild?: boolean;
-}
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  BadgeVariants & { asChild?: boolean };
 
 const Badge = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", asChild = false, ...props }, ref) => {
+  ({ className, variant, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "span";
     return (
       <Comp
-        className={cn(badgeVariants[variant], className)}
+        className={cn(badge({ variant }), className)}
         ref={ref}
         {...props}
       />

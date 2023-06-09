@@ -1,11 +1,11 @@
-import { style, styleVariants } from "@vanilla-extract/css";
 import { tokens } from "@themes";
+import { recipe, type RecipeVariants } from "@vanilla-extract/recipes";
 
 // We can destruct and take what we need
 const { background, color } = tokens;
 
-const badgeBase = style([
-  {
+export const badge = recipe({
+  base: {
     height: "fit-content",
     display: "inline-flex",
     alignItems: "center",
@@ -17,16 +17,18 @@ const badgeBase = style([
     paddingInline: 12,
     paddingBlock: 4,
   },
-]);
 
-export const badgeVariants = styleVariants({
-  primary: [
-    badgeBase,
-    { background: background.primary, color: color.primary },
-  ],
-  warning: [
-    badgeBase,
-    { background: background.warning, color: color.warning },
-  ],
-  danger: [badgeBase, { background: background.danger, color: color.danger }],
+  variants: {
+    variant: {
+      primary: { background: background.primary, color: color.primary },
+      warning: { background: background.warning, color: color.warning },
+      danger: { background: background.danger, color: color.danger },
+    },
+  },
+
+  defaultVariants: {
+    variant: "primary",
+  },
 });
+
+export type BadgeVariants = RecipeVariants<typeof badge>;

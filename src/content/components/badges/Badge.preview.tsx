@@ -1,9 +1,9 @@
 import { Badge } from "./Badge";
-import { darkTheme } from "@themes";
+import { theme } from "@themes";
 
 export default function Preview() {
   return (
-    <section className={darkTheme}>
+    <section className={theme}>
       <div className="flex flex-col gap-3 @sm:flex-row">
         <Badge>Hello Badge</Badge>
         <Badge variant="warning">Hello Warning</Badge>

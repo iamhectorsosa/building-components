@@ -27,3 +27,5 @@ export const darkTheme = createTheme(tokens, {
     danger: "#fafafa",
   },
 });
+
+export const theme = "mock_theme";

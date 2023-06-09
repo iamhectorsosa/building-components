@@ -7,6 +7,15 @@ import { CopyButton } from "./CopyButton";
 import { Resizable } from "re-resizable";
 import { Button } from "./ui/Button";
 import { cn } from "@utils/cn";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/Select";
+
+import { defaultTheme, darkTheme } from "@themes";
 
 export const Preview = ({
   id,
@@ -21,6 +30,7 @@ export const Preview = ({
 }) => {
   const [code, setCode] = React.useState("");
   const [expanded, setExpanded] = React.useState(false);
+  const [theme, setTheme] = React.useState<"light" | "dark">("light");
 
   return (
     <div className="space-y-3">
@@ -29,14 +39,28 @@ export const Preview = ({
           <h3 className="text-xl font-semibold">
             {transformComponentName(id)}
           </h3>
-          <TabsList className="rounded-full">
-            <TabsTrigger value="preview" className="rounded-full p-2">
-              <EyeIcon className="h-4 w-4" />
-            </TabsTrigger>
-            <TabsTrigger value="code" className="rounded-full p-2">
-              <CodeIcon className="h-4 w-4" />
-            </TabsTrigger>
-          </TabsList>
+          <div className="flex items-center gap-2">
+            <Select
+              value={theme}
+              onValueChange={(v) => setTheme(v as "light" | "dark")}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                <SelectItem value="dark">Dark</SelectItem>
+              </SelectContent>
+            </Select>
+            <TabsList className="rounded-full">
+              <TabsTrigger value="preview" className="rounded-full p-2">
+                <EyeIcon className="h-4 w-4" />
+              </TabsTrigger>
+              <TabsTrigger value="code" className="rounded-full p-2">
+                <CodeIcon className="h-4 w-4" />
+              </TabsTrigger>
+            </TabsList>
+          </div>
         </div>
         <TabsContent value="preview">
           <Resizable
@@ -60,7 +84,12 @@ export const Preview = ({
               right: <div className="h-8 w-1.5 rounded-full bg-slate-400" />,
             }}
           >
-            <div className="grid min-h-[350px] w-full place-items-center bg-slate-50 p-4 shadow-sm @container md:p-12">
+            <div
+              className={cn(
+                "grid min-h-[350px] w-full place-items-center bg-slate-50 p-4 shadow-sm @container md:p-12",
+                theme === "light" ? defaultTheme : darkTheme
+              )}
+            >
               {component}
             </div>
           </Resizable>
