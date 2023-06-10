@@ -1,4 +1,4 @@
-export const CONTENT_DIR = "src/content/components";
+export const CONTENT_DIR = "src/content/examples";
 
 type Categories = {
   id: string;

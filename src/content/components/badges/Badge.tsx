@@ -7,11 +7,14 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   BadgeVariants & { asChild?: boolean };
 
 const Badge = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, rounded, outline, asChild = false, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "span";
     return (
       <Comp
-        className={cn(badge({ variant }), className)}
+        className={cn(badge({ variant, rounded, outline }), className)}
         ref={ref}
         {...props}
       />

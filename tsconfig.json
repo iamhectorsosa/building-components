@@ -26,6 +26,7 @@
       "@utils/*": ["./src/utils/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@lib/*": ["./src/lib/*"],
+      "@ui/components": ["./src/content/components/index.ts"],
       "@themes": ["./src/content/themes/index.css.ts"],
       "@themes/*": ["./src/content/themes/*"]
     }

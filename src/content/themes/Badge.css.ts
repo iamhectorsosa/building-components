@@ -1,8 +1,10 @@
-import { tokens } from "@themes";
 import { recipe, type RecipeVariants } from "@vanilla-extract/recipes";
+import { globalTokens } from "@themes/globals.css";
+import { tokens } from "@themes";
 
 // We can destruct and take what we need
-const { background, color } = tokens;
+const { bg, text } = tokens;
+const { rounded } = globalTokens;
 
 export const badge = recipe({
   base: {
@@ -10,7 +12,6 @@ export const badge = recipe({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 6,
     fontSize: 14,
     lineHeight: "20px",
     fontWeight: 500,
@@ -20,14 +21,82 @@ export const badge = recipe({
 
   variants: {
     variant: {
-      primary: { background: background.primary, color: color.primary },
-      warning: { background: background.warning, color: color.warning },
-      danger: { background: background.danger, color: color.danger },
+      base: { background: bg.base, color: text.base },
+      neutral: { background: bg.neutral, color: text.neutral },
+      primary: { background: bg.primary, color: text.primary },
+      secondary: { background: bg.secondary, color: text.secondary },
+      accent: { background: bg.accent, color: text.accent },
+    },
+    rounded: {
+      sm: { borderRadius: rounded.sm },
+      md: { borderRadius: rounded.md },
+      lg: { borderRadius: rounded.lg },
+      full: { borderRadius: rounded.full },
+    },
+    outline: {
+      true: {
+        background: "transparent",
+        borderWidth: "1px",
+        borderStyle: "solid",
+      },
     },
   },
 
+  compoundVariants: [
+    {
+      variants: {
+        variant: "base",
+        outline: true,
+      },
+      style: {
+        color: bg.base,
+        borderColor: bg.base,
+      },
+    },
+    {
+      variants: {
+        variant: "neutral",
+        outline: true,
+      },
+      style: {
+        color: bg.neutral,
+        borderColor: bg.neutral,
+      },
+    },
+    {
+      variants: {
+        variant: "primary",
+        outline: true,
+      },
+      style: {
+        color: bg.primary,
+        borderColor: bg.primary,
+      },
+    },
+    {
+      variants: {
+        variant: "secondary",
+        outline: true,
+      },
+      style: {
+        color: bg.secondary,
+        borderColor: bg.secondary,
+      },
+    },
+    {
+      variants: {
+        variant: "accent",
+        outline: true,
+      },
+      style: {
+        color: bg.accent,
+        borderColor: bg.accent,
+      },
+    },
+  ],
+
   defaultVariants: {
-    variant: "primary",
+    variant: "base",
   },
 });
 

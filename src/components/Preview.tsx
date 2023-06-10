@@ -15,52 +15,46 @@ import {
   SelectValue,
 } from "./ui/Select";
 
-import { defaultTheme, darkTheme } from "@themes";
+import { themes } from "@themes";
 
 export const Preview = ({
   id,
   component,
   preview,
-  source,
 }: {
   id: string;
   component: React.ReactNode;
   preview: string;
-  source: string;
 }) => {
   const [code, setCode] = React.useState("");
   const [expanded, setExpanded] = React.useState(false);
-  const [theme, setTheme] = React.useState<"light" | "dark">("light");
+  const [theme, setTheme] = React.useState(themes[0].value);
 
   return (
     <div className="space-y-3">
+      <h3 className="text-xl font-semibold">{transformComponentName(id)}</h3>
       <Tabs defaultValue="preview" orientation="horizontal">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold">
-            {transformComponentName(id)}
-          </h3>
-          <div className="flex items-center gap-2">
-            <Select
-              value={theme}
-              onValueChange={(v) => setTheme(v as "light" | "dark")}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-              </SelectContent>
-            </Select>
-            <TabsList className="rounded-full">
-              <TabsTrigger value="preview" className="rounded-full p-2">
-                <EyeIcon className="h-4 w-4" />
-              </TabsTrigger>
-              <TabsTrigger value="code" className="rounded-full p-2">
-                <CodeIcon className="h-4 w-4" />
-              </TabsTrigger>
-            </TabsList>
-          </div>
+        <div className="flex items-center gap-2">
+          <Select value={theme} onValueChange={(v) => setTheme(v)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {themes.map(({ label, value }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <TabsList className="rounded-full">
+            <TabsTrigger value="preview" className="rounded-full p-2">
+              <EyeIcon className="h-4 w-4" />
+            </TabsTrigger>
+            <TabsTrigger value="code" className="rounded-full p-2">
+              <CodeIcon className="h-4 w-4" />
+            </TabsTrigger>
+          </TabsList>
         </div>
         <TabsContent value="preview">
           <Resizable
@@ -77,8 +71,7 @@ export const Preview = ({
               },
             }}
             handleClasses={{
-              right:
-                "hidden sm:flex items-center bg-slate-50 -ml-3 rounded-r-md",
+              right: "hidden sm:flex items-center bg-transparent rounded-r-md",
             }}
             handleComponent={{
               right: <div className="h-8 w-1.5 rounded-full bg-slate-400" />,
@@ -86,9 +79,16 @@ export const Preview = ({
           >
             <div
               className={cn(
-                "grid min-h-[350px] w-full place-items-center bg-slate-50 p-4 shadow-sm @container md:p-12",
-                theme === "light" ? defaultTheme : darkTheme
+                "grid min-h-[350px] w-full place-items-center p-4 shadow-sm @container md:p-12",
+                theme
               )}
+              style={{
+                backgroundColor: "#fff",
+                backgroundImage:
+                  "linear-gradient( 45deg, #f1f5f9 25%, transparent 25% ),linear-gradient( 135deg, #f1f5f9 25%, transparent 25% ),linear-gradient( 45deg, transparent 75%, #f1f5f9 75% ),linear-gradient( 135deg, transparent 75%, #f1f5f9 75% )",
+                backgroundSize: "20px 20px",
+                backgroundPosition: "0px 0px, 10px 0px, 10px -10px, 0px 10px",
+              }}
             >
               {component}
             </div>
@@ -108,12 +108,6 @@ export const Preview = ({
                     value="preview"
                     className="px-2.5 py-1.5 text-xs hover:bg-slate-700/50 data-[state=active]:bg-slate-700 data-[state=active]:text-slate-200"
                   >
-                    {id}.preview.tsx
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="code"
-                    className="px-2.5 py-1.5 text-xs hover:bg-slate-700/50 data-[state=active]:bg-slate-700 data-[state=active]:text-slate-200"
-                  >
                     {id}.tsx
                   </TabsTrigger>
                 </TabsList>
@@ -125,14 +119,6 @@ export const Preview = ({
                     node?.textContent && setCode(node.textContent);
                   }}
                   dangerouslySetInnerHTML={{ __html: preview }}
-                />
-              </TabsContent>
-              <TabsContent value="code">
-                <div
-                  ref={(node) => {
-                    node?.textContent && setCode(node.textContent);
-                  }}
-                  dangerouslySetInnerHTML={{ __html: source }}
                 />
               </TabsContent>
             </Tabs>
