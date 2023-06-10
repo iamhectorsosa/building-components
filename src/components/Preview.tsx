@@ -5,17 +5,10 @@ import { CodeIcon, EyeIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/Tabs";
 import { CopyButton } from "./CopyButton";
 import { Resizable } from "re-resizable";
-import { Button } from "./ui/Button";
 import { cn } from "@utils/cn";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/Select";
 
 import { themes } from "@themes";
+import { useTheme } from "./context/ThemeProvider";
 
 export const Preview = ({
   id,
@@ -28,25 +21,15 @@ export const Preview = ({
 }) => {
   const [code, setCode] = React.useState("");
   const [expanded, setExpanded] = React.useState(false);
-  const [theme, setTheme] = React.useState(themes[0].value);
+  const [theme, setTheme] = useTheme();
 
   return (
     <div className="space-y-3">
-      <h3 className="text-xl font-semibold">{transformComponentName(id)}</h3>
       <Tabs defaultValue="preview" orientation="horizontal">
-        <div className="flex items-center gap-2">
-          <Select value={theme} onValueChange={(v) => setTheme(v)}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {themes.map(({ label, value }) => (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="text-xl font-semibold">
+            {transformComponentName(id)}
+          </h3>
           <TabsList className="rounded-full">
             <TabsTrigger value="preview" className="rounded-full p-2">
               <EyeIcon className="h-4 w-4" />
@@ -79,7 +62,7 @@ export const Preview = ({
           >
             <div
               className={cn(
-                "grid min-h-[350px] w-full place-items-center p-4 shadow-sm @container md:p-12",
+                "grid min-h-[250px] w-full place-items-center p-4 shadow-sm @container md:p-12",
                 theme
               )}
               style={{
@@ -98,7 +81,7 @@ export const Preview = ({
           <div
             className={cn(
               "overflow-hidden rounded-md bg-[#011627]",
-              !expanded && "max-h-[350px]"
+              !expanded && "max-h-[250px]"
             )}
           >
             <Tabs defaultValue="preview">
@@ -123,26 +106,30 @@ export const Preview = ({
               </TabsContent>
             </Tabs>
           </div>
-          {!expanded ? (
-            <div className="pointer-events-none absolute inset-0 flex h-full w-full items-end justify-center rounded-md bg-gradient-to-t from-slate-900 pb-8">
-              <Button
-                onClick={() => setExpanded(!expanded)}
-                variant="secondary"
-                className="pointer-events-auto h-fit"
-              >
-                Expand
-              </Button>
-            </div>
-          ) : (
-            <div className="pointer-events-none absolute inset-0 flex h-full w-full items-end justify-center rounded-md pb-2">
-              <button
-                onClick={() => setExpanded(!expanded)}
-                className="pointer-events-auto px-2 py-2 text-xs font-medium text-slate-100"
-              >
-                Collapse
-              </button>
-            </div>
-          )}
+          <footer
+            className={cn(
+              "pointer-events-none absolute inset-0 flex h-full w-full items-end justify-center rounded-md bg-gradient-to-t from-slate-900",
+              expanded ? "border bg-none pb-0" : "pb-8"
+            )}
+          >
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className={cn([
+                expanded
+                  ? "px-2 py-1 text-xs"
+                  : "bg-neutral-200 px-3 py-1.5 text-sm text-neutral-800",
+                "pointer-events-auto rounded-md font-medium transition-all duration-300",
+                /** Hover styles */
+                expanded
+                  ? "text-white hover:bg-slate-800"
+                  : "hover:bg-neutral-400",
+                /** Focus styles */
+                "focus-visible:ring-dark-400 ring-offset-dark-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+              ])}
+            >
+              {!expanded ? "Expand" : "Collapse"}
+            </button>
+          </footer>
         </TabsContent>
       </Tabs>
     </div>

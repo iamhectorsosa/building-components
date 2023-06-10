@@ -5,8 +5,6 @@ import { getHighlighter, highlight } from "@lib/shiki";
 import { Preview } from "@components/Preview";
 import { format } from "prettier";
 
-// For global theming
-import "../content/themes/globals.css";
 // 🫠 Need to figure out how the hell!
 import "../content/components/badges/Badge.css";
 

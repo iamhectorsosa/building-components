@@ -1,5 +1,7 @@
+import { Navbar } from "@components/layout/Navbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { ThemeProvider } from "@components/context/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,9 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="mx-auto grid min-h-screen w-full max-w-4xl px-4 py-12">
-          {children}
-        </main>
+        <ThemeProvider>
+          <Navbar />
+          <main className="mx-auto grid min-h-screen w-full max-w-4xl px-4 py-8">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
