@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { badge, type BadgeVariants } from "@themes/Badge.css";
 import { cn } from "@utils/cn";
+import { type BadgeVariants, badge } from "./Badge.css";
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   BadgeVariants & { asChild?: boolean };

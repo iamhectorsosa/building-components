@@ -1,6 +1,15 @@
-import { createTheme } from "@vanilla-extract/css";
+import { createTheme, createGlobalTheme } from "@vanilla-extract/css";
 
 export const theme = "mock_theme";
+
+export const globalTokens = createGlobalTheme(":root", {
+  rounded: {
+    sm: "2px",
+    md: "6px",
+    lg: "12px",
+    full: "9999px",
+  },
+});
 
 // Create the default theme and the tokens for theming
 export const [defaultTheme, tokens] = createTheme({

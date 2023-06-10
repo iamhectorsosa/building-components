@@ -8,7 +8,7 @@ import { format } from "prettier";
 // For global theming
 import "../content/themes/globals.css";
 // 🫠 Need to figure out how the hell!
-import "../content/themes/Badge.css";
+import "../content/components/badges/Badge.css";
 
 export default async function Home() {
   const data = await getComponentsByCategory();

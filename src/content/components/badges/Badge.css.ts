@@ -1,8 +1,6 @@
 import { recipe, type RecipeVariants } from "@vanilla-extract/recipes";
-import { globalTokens } from "@themes/globals.css";
-import { tokens } from "@themes";
+import { tokens, globalTokens } from "@themes";
 
-// We can destruct and take what we need
 const { bg, text } = tokens;
 const { rounded } = globalTokens;
 
